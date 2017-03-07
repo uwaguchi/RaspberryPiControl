@@ -1,32 +1,21 @@
-var exec = require("child_process").exec;
+var fs = require("fs");
 
 function raspicontrol(response) {
+
+  function writeHTMLFile(err, html) {
+    if(err) {
+      response.writeHead(404, {"Content-type": "text/plain"});
+      response.write("File not found.");
+      response.end();
+    } else {
+      response.writeHead(200, {"Content-type": "text/html"});
+      response.write(html);
+      response.end();
+    }
+  }
+
   console.log("Request handler 'raspicontrol' was called.");
-  response.writeHead(200, {"Content-Type": "text/html"});
-
-  var body = '<html>'+
-    '<head>'+
-    '<meta http-equiv="Content-Type" content="text/html; '+
-    'charset=UTF-8" />'+
-    '</head>'+
-    '<body>'+
-    '<h3>いろいろコントロールページ</h3>'+
-    '<h4>いまの様子</h4>'+
-    '<p><input type="button" value="いまの様子をみる"></p>'+
-    '<h4>テレビ</h4>'+
-    '<p><input type="button" value="Eテレをつける"></p>'+
-    '<p><input type="button" value="NHKをつける"></p>'+
-    '<p><input type="button" value="テレビを消す"></p>'+
-    '<h4>エアコン</h4>'+
-    '<p><input type="button" value="冷房をつける"></p>'+
-    '<p><input type="button" value="暖房をつける"></p>'+
-    '<p><input type="button" value="エアコンを消す"></p>'+
-    '</body>'+
-    '</html>';
-
-
-  response.write(body);
-  response.end();
+  fs.readFile("/home/uwaguchi/RaspberryPiControl/Server/raspicontrol.html", "utf8", writeHTMLFile);
 }
 
 exports.raspicontrol = raspicontrol;
