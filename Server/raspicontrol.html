@@ -3,20 +3,47 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>いろいろこんとろーる</title>
+<script>
+window.addEventListener("load", function(){
+  document.getElementById("view").addEventListener("click", function(){
+    alert("view");
+  });
+  document.getElementById("etv").addEventListener("click", function(){
+    alert("etv");
+  });
+  document.getElementById("nhk").addEventListener("click", function(){
+    alert("nhk");
+  });
+  document.getElementById("tvoff").addEventListener("click", function(){
+    alert("tvoff");
+  });
+  document.getElementById("cooler").addEventListener("click", function(){
+    alert("cooler");
+  });
+  document.getElementById("heater").addEventListener("click", function(){
+    alert("heater");
+  });
+  document.getElementById("airconoff").addEventListener("click", function(){
+    alert("airconoff");
+  });
+
+}, false);
+</script>
 </head>
 
 <body>
-<h3>いろいろコントロールページ2</h3>
+<h3>いろいろコントロールページ</h3>
 <h4>いまの様子</h4>
-<p><input type="button" value="いまの様子をみる"></p>
+<p><input id="view" type="button" value="いまの様子をみる"></p>
 <h4>テレビ</h4>
-<p><input type="button" value="Eテレをつける"></p>
-<p><input type="button" value="NHKをつける"></p>
-<p><input type="button" value="テレビを消す"></p>
+<p><input id="etv" type="button" value="Eテレをつける"></p>
+<p><input id="nhk" type="button" value="NHKをつける"></p>
+<p><input id="tvoff" type="button" value="テレビを消す"></p>
 <h4>エアコン</h4>
-<p><input type="button" value="冷房をつける"></p>
-<p><input type="button" value="暖房をつける"></p>
-<p><input type="button" value="エアコンを消す"></p>
+<p><input id="cooler" type="button" value="冷房をつける"></p>
+<p><input id="heater" type="button" value="暖房をつける"></p>
+<p><input id="airconoff" type="button" value="エアコンを消す"></p>
 </body>
 
 </html>
