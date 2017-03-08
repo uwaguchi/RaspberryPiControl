@@ -18,4 +18,20 @@ function raspicontrol(response) {
   fs.readFile("/home/uwaguchi/RaspberryPiControl/Server/raspicontrol.html", "utf8", writeHTMLFile);
 }
 
+function api_raspimessage_request(response) {
+  // とりあえずテスト
+  response.writeHead(200, {"Content-type": "text/plain"});
+  response.write("raspimessage_request api was called.");
+  response.end();
+}
+
+function api_raspimessage_response(response) {
+  // とりあえずテスト
+  response.writeHead(200, {"Content-type": "text/plain"});
+  response.write("raspimessage_response api was called.");
+  response.end();
+}
+
 exports.raspicontrol = raspicontrol;
+exports.api_raspimessage_request = api_raspimessage_request;
+exports.api_raspimessage_response = api_raspimessage_response;
