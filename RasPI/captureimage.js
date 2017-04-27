@@ -16,8 +16,7 @@ var captureAndPutS3Image = function() {
         // s3バケット名
         var s3bucket = "uwaguchi";
         // s3オブジェクト名
-        //var recentimagekey = "captureimage/recent";
-        var recentimagekey = "captureimage/test";
+        var recentimagekey = "captureimage/recent";
 
         // AWS credential読み込み
         AWS.config.loadFromPath("credentials.json");
