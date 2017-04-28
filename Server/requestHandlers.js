@@ -1,4 +1,5 @@
 var fs = require("fs");
+var send2Raspi = require('./sendMessage2Raspi');
 
 function raspicontrol(query, response) {
 
@@ -26,5 +27,25 @@ function api_raspimessage_request(query, response) {
   response.end();
 }
 
+
+function api_raspimessage_capture(query, response) {
+  // 画像キャプチャー
+  send2Raspi.sendMessage2Raspi().then(function(res) {
+
+    response.writeHead(200, {"Content-type": "text/plain"});
+    response.write("raspimessage_capture api was called.");
+    response.write(JSON.stringify(res));
+    response.end();
+  }).catch(function(err) {
+    // エラー発生
+    console.log(err);
+    response.writeHead(500, {"Content-type": "text/plain"});
+    response.write("api internal error.");
+    response.end();
+  });
+}
+
+// エクスポート
 exports.raspicontrol = raspicontrol;
 exports.api_raspimessage_request = api_raspimessage_request;
+exports.api_raspimessage_capture = api_raspimessage_capture;
