@@ -5,12 +5,86 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>いろいろこんとろーる</title>
 <script>
+function $http(url){
+
+  var core = {
+
+    // Method that performs the ajax request
+    ajax : function (method, url, args) {
+
+      // Creating a promise
+      var promise = new Promise( function (resolve, reject) {
+
+        // Instantiates the XMLHttpRequest
+        var client = new XMLHttpRequest();
+        var uri = url;
+
+        if (args && (method === 'POST' || method === 'PUT')) {
+          uri += '?';
+          var argcount = 0;
+          for (var key in args) {
+            if (args.hasOwnProperty(key)) {
+              if (argcount++) {
+                uri += '&';
+              }
+              uri += encodeURIComponent(key) + '=' + encodeURIComponent(args[key]);
+            }
+          }
+        }
+
+        client.open(method, uri);
+        client.send();
+
+        client.onload = function () {
+          if (this.status >= 200 && this.status < 300) {
+            // Performs the function "resolve" when this.status is equal to 2xx
+            resolve(this.response);
+          } else {
+            // Performs the function "reject" when this.status is different than 2xx
+            reject(this.statusText);
+          }
+        };
+        client.onerror = function () {
+          reject(this.statusText);
+        };
+      });
+
+      // Return the promise
+      return promise;
+    }
+  };
+
+  // Adapter pattern
+  return {
+    'get' : function(args) {
+      return core.ajax('GET', url, args);
+    },
+    'post' : function(args) {
+      return core.ajax('POST', url, args);
+    },
+    'put' : function(args) {
+      return core.ajax('PUT', url, args);
+    },
+    'delete' : function(args) {
+      return core.ajax('DELETE', url, args);
+    }
+  };
+};
+
 window.addEventListener("load", function(){
   document.getElementById("view").addEventListener("click", function(){
     document.getElementById("recentimage").innerHTML = "<font color='red'>画像取得中...</font>";
 
-    var imgurl = "https://s3-ap-northeast-1.amazonaws.com/uwaguchi/captureimage/recent";
-    document.getElementById("recentimage").innerHTML = "<img src='" + imgurl + "' width=640 height=480>";
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/capture";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      var imgurl = "https://s3-ap-northeast-1.amazonaws.com/uwaguchi/captureimage/recent?" + new Date().getTime();
+      document.getElementById("recentimage").innerHTML = "<img src='" + imgurl + "' width=640 height=480>";
+    }).catch(err)(function(err) {
+      document.getElementById("recentimage").innerHTML = "<font color='red'>画像取得エラー</font>";
+    });
   });
   document.getElementById("etv").addEventListener("click", function(){
     alert("etv");
