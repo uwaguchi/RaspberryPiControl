@@ -31,43 +31,59 @@ var receiveMessage = function() {
             var curBody = data.Messages[0].Body;
 
             // ここで受信したメッセージの内容に従って処理
+            var curBodyData = JSON.parse(curBody);
+            switch(curBodyData.raspimessage){
 
-            // いったんだまってキャプチャ処理
-            captureimage.captureAndPutS3Image().then(function(data) {
-                // s3urlのプリフィックス 
-                var s3url = "https://s3-ap-northeast-1.amazonaws.com/uwaguchi/";
-                // 返ってきたキー値をURLに追加
-                s3url += data;
+                // 画像取得
+                case 'GetCapture':
+                    console.log("GetCapture Start");
 
-                // ここでレスポンスを返す
-                // レスポンスキューにメッセージを送信
-                // メッセージ本体
-                var responsemessage = {raspiresponse: 'OK', requestMessageId: curMessageId, url: s3url};
+                    captureimage.captureAndPutS3Image().then(function(data) {
+                        // s3urlのプリフィックス
+                        var s3url = "https://s3-ap-northeast-1.amazonaws.com/uwaguchi/";
+                        // 返ってきたキー値をURLに追加
+                        s3url += data;
 
-                // パラメータセット
-                var responseparams = {
-                    QueueUrl: response_que_url,
-                    MessageBody: JSON.stringify( responsemessage )
-                };
+                        // ここでレスポンスを返す
+                        // レスポンスキューにメッセージを送信
+                        // メッセージ本体
+                        var responsemessage = {raspiresponse: 'OK', requestMessageId: curMessageId, url: s3url};
 
-                // レスポンスメッセージ送信
-                return sqs.sendMessage(responseparams).promise();
-            }).then(function(data) {
-                // 送信完了
-                console.log("send response message end");
+                        // パラメータセット
+                        var responseparams = {
+                            QueueUrl: response_que_url,
+                            MessageBody: JSON.stringify( responsemessage )
+                        };
 
-                // 処理が終わったらメッセージ削除
-                var deleteparams = {
-                    QueueUrl: request_que_url,
-                    ReceiptHandle: curReceiptHandle
-                };
+                        // レスポンスメッセージ送信
+                        return sqs.sendMessage(responseparams).promise();
+                    }).then(function(data) {
+                        // 送信完了
+                        console.log("send response message end");
 
-                // メッセージ削除
-                return sqs.deleteMessage(deleteparams).promise();
-            }).catch(function(err) {
-                // エラー発生
-                console.log(err);
-            });
+                        // 処理が終わったらメッセージ削除
+                        var deleteparams = {
+                            QueueUrl: request_que_url,
+                            ReceiptHandle: curReceiptHandle
+                        };
+
+                        // メッセージ削除
+                        return sqs.deleteMessage(deleteparams).promise();
+                    }).catch(function(err) {
+                        // エラー発生
+                        console.log(err);
+                    });
+
+                    break;
+
+                // リモコン操作
+                case '':
+
+                default:
+                    console.log("do nothing. message:" + curBodyData.raspimessage);
+                    break;
+            }
+
         }
     }).then(function(data) {
         // 削除完了したら次のメッセージ受信処理へ
