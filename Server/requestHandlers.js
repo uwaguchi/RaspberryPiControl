@@ -30,10 +30,27 @@ function api_raspimessage_request(query, response) {
 
 function api_raspimessage_capture(query, response) {
   // 画像キャプチャー
-  send2Raspi.sendMessage2Raspi().then(function(res) {
+  send2Raspi.sendMessage2Raspi('GetCapture', null).then(function(res) {
 
     response.writeHead(200, {"Content-type": "text/plain"});
     response.write("raspimessage_capture api was called.");
+    response.write(JSON.stringify(res));
+    response.end();
+  }).catch(function(err) {
+    // エラー発生
+    console.log(err);
+    response.writeHead(500, {"Content-type": "text/plain"});
+    response.write("api internal error.");
+    response.end();
+  });
+}
+
+function api_raspimessage_sendirkit(query, response) {
+  // IRKitへのコマンド送信
+  send2Raspi.sendMessage2Raspi('SendIRKit', query['action']).then(function(res) {
+
+    response.writeHead(200, {"Content-type": "text/plain"});
+    response.write("raspimessage_sendirkit api was called.");
     response.write(JSON.stringify(res));
     response.end();
   }).catch(function(err) {
@@ -49,3 +66,4 @@ function api_raspimessage_capture(query, response) {
 exports.raspicontrol = raspicontrol;
 exports.api_raspimessage_request = api_raspimessage_request;
 exports.api_raspimessage_capture = api_raspimessage_capture;
+exports.api_raspimessage_sendirkit = api_raspimessage_sendirkit;
