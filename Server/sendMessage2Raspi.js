@@ -3,7 +3,7 @@ var AWS = require('aws-sdk');
 var request_que_url = 'https://sqs.ap-northeast-1.amazonaws.com/120143799024/raspi_request';
 var response_que_url = 'https://sqs.ap-northeast-1.amazonaws.com/120143799024/raspi_response';
 
-var sendMessage2Raspi = function() {
+var sendMessage2Raspi = function(message, detail) {
 
     return new Promise(function(resolve, reject) {
 
@@ -15,12 +15,12 @@ var sendMessage2Raspi = function() {
         });
 
         // 送信メッセージ本体
-        var message = {raspimessage: 'GetCapture'};
+        var messagebody = {raspimessage: message, detail: detail};
 
         // パラメータセット
         var params = {
             QueueUrl: request_que_url,
-            MessageBody: JSON.stringify( message )
+            MessageBody: JSON.stringify( messagebody )
         };
 
         // 送信したリクエストのメッセージID
