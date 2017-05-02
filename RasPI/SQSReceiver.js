@@ -11,6 +11,49 @@ var sqs = new AWS.SQS({
     region: 'ap-northeast-1'
 });
 
+// 各処理の本体
+var getCapture = function(curMessageId, curReceiptHandle) {
+    captureimage.captureAndPutS3Image().then(function(data) {
+        // s3urlのプリフィックス
+        var s3url = "https://s3-ap-northeast-1.amazonaws.com/uwaguchi/";
+        // 返ってきたキー値をURLに追加
+        s3url += data;
+
+        // ここでレスポンスを返す
+        // レスポンスキューにメッセージを送信
+        // メッセージ本体
+        var responsemessage = {raspiresponse: 'OK', requestMessageId: curMessageId, url: s3url};
+
+        // パラメータセット
+        var responseparams = {
+            QueueUrl: response_que_url,
+            MessageBody: JSON.stringify( responsemessage )
+        };
+
+        // レスポンスメッセージ送信
+        return sqs.sendMessage(responseparams).promise();
+    }).then(function(data) {
+        // 送信完了
+        console.log("send response message end");
+
+        // 処理が終わったらメッセージ削除
+        var deleteparams = {
+            QueueUrl: request_que_url,
+            ReceiptHandle: curReceiptHandle
+        };
+
+        // メッセージ削除
+        return sqs.deleteMessage(deleteparams).promise();
+    }).catch(function(err) {
+        // エラー発生
+        console.log(err);
+    });
+};
+
+
+
+
+
 var receiveMessage = function() {
     // パラメータセット
     var receiveparams = {
@@ -37,43 +80,7 @@ var receiveMessage = function() {
                 // 画像取得
                 case 'GetCapture':
                     console.log("GetCapture Start");
-
-                    captureimage.captureAndPutS3Image().then(function(data) {
-                        // s3urlのプリフィックス
-                        var s3url = "https://s3-ap-northeast-1.amazonaws.com/uwaguchi/";
-                        // 返ってきたキー値をURLに追加
-                        s3url += data;
-
-                        // ここでレスポンスを返す
-                        // レスポンスキューにメッセージを送信
-                        // メッセージ本体
-                        var responsemessage = {raspiresponse: 'OK', requestMessageId: curMessageId, url: s3url};
-
-                        // パラメータセット
-                        var responseparams = {
-                            QueueUrl: response_que_url,
-                            MessageBody: JSON.stringify( responsemessage )
-                        };
-
-                        // レスポンスメッセージ送信
-                        return sqs.sendMessage(responseparams).promise();
-                    }).then(function(data) {
-                        // 送信完了
-                        console.log("send response message end");
-
-                        // 処理が終わったらメッセージ削除
-                        var deleteparams = {
-                            QueueUrl: request_que_url,
-                            ReceiptHandle: curReceiptHandle
-                        };
-
-                        // メッセージ削除
-                        return sqs.deleteMessage(deleteparams).promise();
-                    }).catch(function(err) {
-                        // エラー発生
-                        console.log(err);
-                    });
-
+                    return getCapture(curMessageId, curReceiptHandle);
                     break;
 
                 // リモコン操作
