@@ -1,5 +1,6 @@
 var AWS = require('aws-sdk');
 var captureimage = require('./captureimage');
+var sendIRKit = require('./sendIRKit');
 
 var request_que_url = 'https://sqs.ap-northeast-1.amazonaws.com/120143799024/raspi_request';
 var response_que_url = 'https://sqs.ap-northeast-1.amazonaws.com/120143799024/raspi_response';
@@ -12,7 +13,8 @@ var sqs = new AWS.SQS({
 });
 
 // 各処理の本体
-var getCapture = function(curMessageId, curReceiptHandle) {
+// キャプチャ取得
+var getCaptureMain = function(curMessageId, curReceiptHandle) {
     captureimage.captureAndPutS3Image().then(function(data) {
         // s3urlのプリフィックス
         var s3url = "https://s3-ap-northeast-1.amazonaws.com/uwaguchi/";
@@ -50,9 +52,101 @@ var getCapture = function(curMessageId, curReceiptHandle) {
     });
 };
 
+// IRKitにコマンド送信
+var sendIRKitMain = function(curMessageId, curReceiptHandle, detail) {
 
+    return new Promise(function(resolve, reject) {
+        switch(detail){
+            case 'tv_3ch':
+                console.log("sendIRKit tv_3ch start.");
+                sendIRKit.tv_3ch().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
+            case 'tv_9ch':
+                console.log("sendIRKit tv_9ch start.");
+                sendIRKit.tv_9ch().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
+            case 'tv_power':
+                console.log("sendIRKit tv_power start.");
+                sendIRKit.tv_power().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
+            case 'aircon_cooler':
+                console.log("sendIRKit aircon_cooler start.");
+                sendIRKit.aircon_cooler().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
+            case 'aircon_heater':
+                console.log("sendIRKit aircon_heater start.");
+                sendIRKit.aircon_heater().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
+            case 'aircon_off':
+                console.log("sendIRKit aircon_off start.");
+                sendIRKit.aircon_off().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
 
+            default:
+                console.log("sendIRKitMain error. invalid detail message: " + detail);
+                break;
+        }
+    }).then(function(data){
+        // ここでレスポンスを返す
+        // レスポンスキューにメッセージを送信
+        // メッセージ本体
+        var responsemessage = {raspiresponse: 'OK', requestMessageId: curMessageId};
 
+        // パラメータセット
+        var responseparams = {
+            QueueUrl: response_que_url,
+            MessageBody: JSON.stringify( responsemessage )
+        };
+
+        // レスポンスメッセージ送信
+        return sqs.sendMessage(responseparams).promise();
+    }).then(function(data) {
+        // 送信完了
+        console.log("send response message end");
+
+        // 処理が終わったらメッセージ削除
+        var deleteparams = {
+            QueueUrl: request_que_url,
+            ReceiptHandle: curReceiptHandle
+        };
+
+        // メッセージ削除
+        return sqs.deleteMessage(deleteparams).promise();
+    }).catch(function(err) {
+        // エラー発生
+        console.log(err);
+    });
+};
 
 var receiveMessage = function() {
     // パラメータセット
@@ -80,11 +174,14 @@ var receiveMessage = function() {
                 // 画像取得
                 case 'GetCapture':
                     console.log("GetCapture Start");
-                    return getCapture(curMessageId, curReceiptHandle);
+                    return getCaptureMain(curMessageId, curReceiptHandle);
                     break;
 
                 // リモコン操作
-                case '':
+                case 'SendIRKit':
+                    console.log("SendIRKit Start");
+                    return sendIRKitMain(curMessageId, curReceiptHandle, curBodyData.detail);
+                    break;
 
                 default:
                     console.log("do nothing. message:" + curBodyData.raspimessage);
