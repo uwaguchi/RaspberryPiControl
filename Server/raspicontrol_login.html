@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>いろいろこんとろーるログイン</title>
+
+<script type="text/javascript">
+function login(){
+
+  var username = document.getElementById("username").value;
+  var pass = document.getElementById("pass").value;
+
+  // AWS SDK初期化
+  AWS.config.region = 'ap-northeast-1';
+  AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'ap-northeast-1:',
+  });
+  // Cognito credentials初期化
+  AWSCognito.config.region = 'ap-northeast-1';
+  AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'ap-northeast-1:'
+  });
+
+  var data = { UserPoolId: '',
+                ClientId: '',
+                Paranoia : 7
+  };
+ 
+  var userPool;
+  var cognitoUser;
+
+
+
+}
+</script>
+</head>
+
+<body>
+<h3>いろいろコントロールログインページ</h3>
+<p>ユーザーＩＤ</p>
+<p><input type="text" id="username" /></p>
+<p>パスワード</p>
+<p><input type="password" id="pass" /></p>
+<p><input type="submit" value="ログイン" onClick="login();" /></p>
+</body>
+
+</html>
+
