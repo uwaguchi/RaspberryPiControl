@@ -87,22 +87,82 @@ window.addEventListener("load", function(){
     });
   });
   document.getElementById("etv").addEventListener("click", function(){
-    alert("etv");
+    document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=tv_9ch";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
   });
   document.getElementById("nhk").addEventListener("click", function(){
-    alert("nhk");
+    document.getElementById("nhk_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=tv_3ch";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("nhk_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("nhk_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
   });
   document.getElementById("tvoff").addEventListener("click", function(){
-    alert("tvoff");
+    document.getElementById("tvoff_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=tv_power";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("tvoff_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("tvoff_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
   });
   document.getElementById("cooler").addEventListener("click", function(){
-    alert("cooler");
+    document.getElementById("cooler_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=aircon_cooler";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("cooler_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("cooler_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
   });
   document.getElementById("heater").addEventListener("click", function(){
-    alert("heater");
+    document.getElementById("heater_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=aircon_heater";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("heater_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("heater_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
   });
   document.getElementById("airconoff").addEventListener("click", function(){
-    alert("airconoff");
+    document.getElementById("airconoff_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=aircon_off";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("airconoff_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("airconoff_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
   });
 
 }, false);
@@ -117,12 +177,24 @@ window.addEventListener("load", function(){
 </div>
 <h4>テレビ</h4>
 <p><input id="etv" type="button" value="Eテレをつける"></p>
+<div id="etv_status">
+</div>
 <p><input id="nhk" type="button" value="NHKをつける"></p>
+<div id="nhk_status">
+</div>
 <p><input id="tvoff" type="button" value="テレビを消す"></p>
+<div id="tvoff_status">
+</div>
 <h4>エアコン</h4>
 <p><input id="cooler" type="button" value="冷房をつける"></p>
+<div id="cooler_status">
+</div>
 <p><input id="heater" type="button" value="暖房をつける"></p>
+<div id="heater_status">
+</div>
 <p><input id="airconoff" type="button" value="エアコンを消す"></p>
+<div id="airconoff_status">
+</div>
 </body>
 
 </html>
