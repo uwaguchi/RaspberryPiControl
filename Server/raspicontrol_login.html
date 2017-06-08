@@ -5,6 +5,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>いろいろこんとろーるログイン</title>
 
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.65.0.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/uwaguchi/cognito-sdk/aws-cognito-sdk.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/uwaguchi/cognito-sdk/amazon-cognito-identity.min.js"></script>
+
 <script type="text/javascript">
 function login(){
 
@@ -14,23 +18,36 @@ function login(){
   // AWS SDK初期化
   AWS.config.region = 'ap-northeast-1';
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'ap-northeast-1:',
-  });
-  // Cognito credentials初期化
-  AWSCognito.config.region = 'ap-northeast-1';
-  AWSCognito.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'ap-northeast-1:'
+    IdentityPoolId: 'ap-northeast-1:ap-northeast-1_vfDOOCJqF',
   });
 
-  var data = { UserPoolId: '',
-                ClientId: '',
-                Paranoia : 7
+  var pooldata = { UserPoolId: 'ap-northeast-1_vfDOOCJqF',
+                   ClientId: '4r1516g75kkrkpkq9vi0rltad'
   };
- 
-  var userPool;
-  var cognitoUser;
+  var authenticationData = {
+      Username : username,
+      Password : pass
+  };
 
+  var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+  var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(pooldata);
 
+  var userData = {
+      Username : username,
+      Pool : userPool
+   };
+
+  var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+
+  cognitoUser.authenticateUser(authenticationDetails, {
+    onSuccess: function (authresult) {
+      console.log('access token + ' + authresult.getIdToken().getJwtToken());
+
+    },
+    onFailure: function(err) {
+            alert("認証エラー");
+    },
+  });
 
 }
 </script>
