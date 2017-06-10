@@ -76,13 +76,16 @@ function $http(url){
   };
 };
 
+// token
+var curtoken = null;
+
 window.addEventListener("load", function(){
   // セッションチェック
   var pooldata = { UserPoolId: 'ap-northeast-1_vfDOOCJqF',
                    ClientId: '4r1516g75kkrkpkq9vi0rltad'
   };
   var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(pooldata);
-  var cognitoUser = userPool.getCurrentUser();
+  cognitoUser = userPool.getCurrentUser();
 
   if (cognitoUser != null) {
     cognitoUser.getSession(function(err, session) {
@@ -92,8 +95,10 @@ window.addEventListener("load", function(){
         window.location.href = 'login';
         return;
       }
+      // token取得
+      curtoken = session.getIdToken().getJwtToken();
       console.log('session validity: ' + session.isValid());
-      console.log('access token + ' + session.getIdToken().getJwtToken());
+      console.log('access token + ' + curtoken);
     });
   } else {
     alert('session is null');
@@ -107,7 +112,7 @@ window.addEventListener("load", function(){
     document.getElementById("recentimage").innerHTML = "<font color='red'>画像取得中...</font>";
 
     // APIリクエスト
-    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/capture";
+    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/capture";
     $http(captureurl)
     .get({})
     .then(function(data) {
@@ -121,7 +126,7 @@ window.addEventListener("load", function(){
     document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=tv_9ch";
+    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_9ch";
     $http(captureurl)
     .get({})
     .then(function(data) {
@@ -134,7 +139,7 @@ window.addEventListener("load", function(){
     document.getElementById("nhk_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=tv_3ch";
+    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_3ch";
     $http(captureurl)
     .get({})
     .then(function(data) {
@@ -147,7 +152,7 @@ window.addEventListener("load", function(){
     document.getElementById("tvoff_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=tv_power";
+    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_power";
     $http(captureurl)
     .get({})
     .then(function(data) {
@@ -160,7 +165,7 @@ window.addEventListener("load", function(){
     document.getElementById("cooler_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=aircon_cooler";
+    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=aircon_cooler";
     $http(captureurl)
     .get({})
     .then(function(data) {
@@ -173,7 +178,7 @@ window.addEventListener("load", function(){
     document.getElementById("heater_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=aircon_heater";
+    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=aircon_heater";
     $http(captureurl)
     .get({})
     .then(function(data) {
@@ -186,7 +191,7 @@ window.addEventListener("load", function(){
     document.getElementById("airconoff_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=aircon_off";
+    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=aircon_off";
     $http(captureurl)
     .get({})
     .then(function(data) {
