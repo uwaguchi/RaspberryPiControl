@@ -43,6 +43,9 @@ function login(){
     onSuccess: function (authresult) {
       console.log('access token + ' + authresult.getIdToken().getJwtToken());
 
+      // コントロール画面に遷移
+      window.location.href = 'raspicontrol';
+
     },
     onFailure: function(err) {
             alert("認証エラー");
