@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>いろいろこんとろーる</title>
+
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.65.0.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/uwaguchi/cognito-sdk/aws-cognito-sdk.min.js"></script>
+<script src="https://s3-ap-northeast-1.amazonaws.com/uwaguchi/cognito-sdk/amazon-cognito-identity.min.js"></script>
+
+<script>
+function $http(url){
+
+  var core = {
+
+    // Method that performs the ajax request
+    ajax : function (method, url, args) {
+
+      // Creating a promise
+      var promise = new Promise( function (resolve, reject) {
+
+        // Instantiates the XMLHttpRequest
+        var client = new XMLHttpRequest();
+        var uri = url;
+
+        if (args && (method === 'POST' || method === 'PUT')) {
+          uri += '?';
+          var argcount = 0;
+          for (var key in args) {
+            if (args.hasOwnProperty(key)) {
+              if (argcount++) {
+                uri += '&';
+              }
+              uri += encodeURIComponent(key) + '=' + encodeURIComponent(args[key]);
+            }
+          }
+        }
+
+        client.open(method, uri);
+        client.send();
+
+        client.onload = function () {
+          if (this.status >= 200 && this.status < 300) {
+            // Performs the function "resolve" when this.status is equal to 2xx
+            resolve(this.response);
+          } else {
+            // Performs the function "reject" when this.status is different than 2xx
+            reject(this.statusText);
+          }
+        };
+        client.onerror = function () {
+          reject(this.statusText);
+        };
+      });
+
+      // Return the promise
+      return promise;
+    }
+  };
+
+  // Adapter pattern
+  return {
+    'get' : function(args) {
+      return core.ajax('GET', url, args);
+    },
+    'post' : function(args) {
+      return core.ajax('POST', url, args);
+    },
+    'put' : function(args) {
+      return core.ajax('PUT', url, args);
+    },
+    'delete' : function(args) {
+      return core.ajax('DELETE', url, args);
+    }
+  };
+};
+
+window.addEventListener("load", function(){
+  // セッションチェック
+  var pooldata = { UserPoolId: 'ap-northeast-1_vfDOOCJqF',
+                   ClientId: '4r1516g75kkrkpkq9vi0rltad'
+  };
+  var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(pooldata);
+  var cognitoUser = userPool.getCurrentUser();
+
+  if (cognitoUser != null) {
+    cognitoUser.getSession(function(err, session) {
+      if (err) {
+        alert(err);
+        // ログイン画面に遷移
+        window.location.href = 'login';
+        return;
+      }
+      console.log('session validity: ' + session.isValid());
+      console.log('access token + ' + session.getIdToken().getJwtToken());
+    });
+  } else {
+    alert('session is null');
+    // ログイン画面に遷移
+    window.location.href = 'login';
+    return;
+  }
+
+  // 各機能のイベントハンドラ登録
+  document.getElementById("view").addEventListener("click", function(){
+    document.getElementById("recentimage").innerHTML = "<font color='red'>画像取得中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/capture";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      var imgurl = "https://s3-ap-northeast-1.amazonaws.com/uwaguchi/captureimage/recent?" + new Date().getTime();
+      document.getElementById("recentimage").innerHTML = "<img src='" + imgurl + "' width=640 height=480>";
+    }).catch(err)(function(err) {
+      document.getElementById("recentimage").innerHTML = "<font color='red'>画像取得エラー</font>";
+    });
+  });
+  document.getElementById("etv").addEventListener("click", function(){
+    document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=tv_9ch";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("nhk").addEventListener("click", function(){
+    document.getElementById("nhk_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=tv_3ch";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("nhk_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("nhk_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("tvoff").addEventListener("click", function(){
+    document.getElementById("tvoff_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=tv_power";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("tvoff_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("tvoff_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("cooler").addEventListener("click", function(){
+    document.getElementById("cooler_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=aircon_cooler";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("cooler_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("cooler_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("heater").addEventListener("click", function(){
+    document.getElementById("heater_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=aircon_heater";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("heater_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("heater_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("airconoff").addEventListener("click", function(){
+    document.getElementById("airconoff_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var captureurl = "http://ec2-54-238-209-227.ap-northeast-1.compute.amazonaws.com:8888/api/raspimessage/sendirkit?action=aircon_off";
+    $http(captureurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("airconoff_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("airconoff_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+
+}, false);
+</script>
+</head>
+
+<body>
+<h3>いろいろコントロールページ</h3>
+<h4>いまの様子</h4>
+<p><input id="view" type="button" value="いまの様子をみる"></p>
+<div id="recentimage">
+</div>
+<h4>テレビ</h4>
+<p><input id="etv" type="button" value="Eテレをつける"></p>
+<div id="etv_status">
+</div>
+<p><input id="nhk" type="button" value="NHKをつける"></p>
+<div id="nhk_status">
+</div>
+<p><input id="tvoff" type="button" value="テレビを消す"></p>
+<div id="tvoff_status">
+</div>
+<h4>エアコン</h4>
+<p><input id="cooler" type="button" value="冷房をつける"></p>
+<div id="cooler_status">
+</div>
+<p><input id="heater" type="button" value="暖房をつける"></p>
+<div id="heater_status">
+</div>
+<p><input id="airconoff" type="button" value="エアコンを消す"></p>
+<div id="airconoff_status">
+</div>
+</body>
+
+</html>
+
