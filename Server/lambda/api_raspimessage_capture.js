@@ -1,4 +1,3 @@
-var fs = require("fs");
 var send2Raspi = require('./sendMessage2Raspi');
 
 exports.handler = function(event, context, callback) {
