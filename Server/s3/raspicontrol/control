@@ -10,6 +10,9 @@
 <script src="https://s3-ap-northeast-1.amazonaws.com/uwaguchi/cognito-sdk/amazon-cognito-identity.min.js"></script>
 
 <script>
+// token
+var curtoken = null;
+
 function $http(url){
 
   var core = {
@@ -38,6 +41,13 @@ function $http(url){
         }
 
         client.open(method, uri);
+
+        // Set Authorization Header
+        if (curtoken != null) {
+          client.setRequestHeader('Authorization', curtoken);
+	}
+
+	// Send Request
         client.send();
 
         client.onload = function () {
@@ -75,9 +85,6 @@ function $http(url){
     }
   };
 };
-
-// token
-var curtoken = null;
 
 window.addEventListener("load", function(){
   // セッションチェック
