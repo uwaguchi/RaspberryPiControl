@@ -119,8 +119,8 @@ window.addEventListener("load", function(){
     document.getElementById("recentimage").innerHTML = "<font color='red'>画像取得中...</font>";
 
     // APIリクエスト
-    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/capture";
-    $http(captureurl)
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/capture";
+    $http(apiurl)
     .get({})
     .then(function(data) {
       var imgurl = "https://s3-ap-northeast-1.amazonaws.com/uwaguchi/captureimage/recent?" + new Date().getTime();
@@ -133,8 +133,8 @@ window.addEventListener("load", function(){
     document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_9ch";
-    $http(captureurl)
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_9ch";
+    $http(apiurl)
     .get({})
     .then(function(data) {
       document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
@@ -146,8 +146,8 @@ window.addEventListener("load", function(){
     document.getElementById("nhk_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_3ch";
-    $http(captureurl)
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_3ch";
+    $http(apiurl)
     .get({})
     .then(function(data) {
       document.getElementById("nhk_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
@@ -159,8 +159,8 @@ window.addEventListener("load", function(){
     document.getElementById("tvoff_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_power";
-    $http(captureurl)
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_power";
+    $http(apiurl)
     .get({})
     .then(function(data) {
       document.getElementById("tvoff_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
@@ -172,8 +172,8 @@ window.addEventListener("load", function(){
     document.getElementById("cooler_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=aircon_cooler";
-    $http(captureurl)
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=aircon_cooler";
+    $http(apiurl)
     .get({})
     .then(function(data) {
       document.getElementById("cooler_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
@@ -185,8 +185,8 @@ window.addEventListener("load", function(){
     document.getElementById("heater_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=aircon_heater";
-    $http(captureurl)
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=aircon_heater";
+    $http(apiurl)
     .get({})
     .then(function(data) {
       document.getElementById("heater_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
@@ -198,13 +198,39 @@ window.addEventListener("load", function(){
     document.getElementById("airconoff_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var captureurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=aircon_off";
-    $http(captureurl)
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=aircon_off";
+    $http(apiurl)
     .get({})
     .then(function(data) {
       document.getElementById("airconoff_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
     }).catch(err)(function(err) {
       document.getElementById("airconoff_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("light1").addEventListener("click", function(){
+    document.getElementById("light1_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=light1";
+    $http(apiurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("light1_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("light1_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("light3").addEventListener("click", function(){
+    document.getElementById("light3_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=light3";
+    $http(apiurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("light3_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("light3_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
     });
   });
 
@@ -237,6 +263,13 @@ window.addEventListener("load", function(){
 </div>
 <p><input id="airconoff" type="button" value="エアコンを消す"></p>
 <div id="airconoff_status">
+</div>
+<h4>照明</h4>
+<p><input id="light1" type="button" value="1回押す(off->on)"></p>
+<div id="light1_status">
+</div>
+<p><input id="light3" type="button" value="3回押す(on->off)"></p>
+<div id="light3_status">
 </div>
 </body>
 
