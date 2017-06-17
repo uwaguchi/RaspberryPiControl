@@ -111,6 +111,24 @@ var sendIRKitMain = function(curMessageId, curReceiptHandle, detail) {
                     reject();
                 });
                 break;
+            case 'light1':
+                console.log("sendIRKit light1 start.");
+                sendIRKit.light1().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
+            case 'light3':
+                console.log("sendIRKit light3 start.");
+                sendIRKit.light3().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
 
             default:
                 console.log("sendIRKitMain error. invalid detail message: " + detail);

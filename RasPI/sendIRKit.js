@@ -79,6 +79,56 @@ var aircon_off = function() {
     return request_irkit(jsondat);
 };
 
+var light1 = function() {
+    // 送信するJSON
+    var jsondat = fs.readFileSync("light.json");
+
+    // リクエスト
+    return request_irkit(jsondat);
+};
+
+var light3 = function() {
+    // 送信するJSON
+    var jsondat = fs.readFileSync("light.json");
+
+    return new Promise(function(resolve, reject) {
+
+        // 1秒おきに3回コール
+        // 1回目
+        console.log("first light3 request");
+        request_irkit(jsondat).then(function(res) {
+            // 1秒待つ
+            return new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    resolve();
+                }, 2000);
+            });
+        }).then(function(res) {
+            // 2回目
+            console.log("second light3 request");
+            return request_irkit(jsondat);
+        }).then(function(res) {
+            // 1秒待つ
+            return new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    resolve();
+                }, 2000);
+            });
+        }).then(function(res) {
+            // 3回目
+            console.log("third light3 request");
+            return request_irkit(jsondat);
+        }).then(function(res) {
+            // 全部成功したら完了
+            console.log("all light3 request done");
+            resolve();
+        }).catch(function(err) {
+            // エラー発生
+            console.log("light3 request error.");
+            reject();
+        });
+    });
+};
 
 // エクスポート
 exports.tv_3ch = tv_3ch;
@@ -87,4 +137,6 @@ exports.tv_power = tv_power;
 exports.aircon_cooler= aircon_cooler;
 exports.aircon_heater= aircon_heater;
 exports.aircon_off= aircon_off;
+exports.light1= light1;
+exports.light3= light3;
 
