@@ -93,11 +93,11 @@ var light3 = function() {
 
     return new Promise(function(resolve, reject) {
 
-        // 1秒おきに3回コール
+        // 2秒おきに3回コール
         // 1回目
         console.log("first light3 request");
         request_irkit(jsondat).then(function(res) {
-            // 1秒待つ
+            // 2秒待つ
             return new Promise(function(resolve, reject) {
                 setTimeout(function() {
                     resolve();
@@ -108,7 +108,7 @@ var light3 = function() {
             console.log("second light3 request");
             return request_irkit(jsondat);
         }).then(function(res) {
-            // 1秒待つ
+            // 2秒待つ
             return new Promise(function(resolve, reject) {
                 setTimeout(function() {
                     resolve();
