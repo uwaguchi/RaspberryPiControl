@@ -130,6 +130,14 @@ var light3 = function() {
     });
 };
 
+var fan_power = function() {
+    // 送信するJSON
+    var jsondat = fs.readFileSync("fan_power.json");
+
+    // リクエスト
+    return request_irkit(jsondat);
+};
+
 // エクスポート
 exports.tv_3ch = tv_3ch;
 exports.tv_9ch = tv_9ch;
@@ -139,4 +147,5 @@ exports.aircon_heater= aircon_heater;
 exports.aircon_off= aircon_off;
 exports.light1= light1;
 exports.light3= light3;
+exports.fan_power= fan_power;
 

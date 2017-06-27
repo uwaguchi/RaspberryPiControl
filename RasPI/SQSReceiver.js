@@ -129,6 +129,15 @@ var sendIRKitMain = function(curMessageId, curReceiptHandle, detail) {
                     reject();
                 });
                 break;
+            case 'fan_power':
+                console.log("sendIRKit fan_power start.");
+                sendIRKit.fan_power().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
 
             default:
                 console.log("sendIRKitMain error. invalid detail message: " + detail);
