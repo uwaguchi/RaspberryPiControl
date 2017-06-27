@@ -233,6 +233,19 @@ window.addEventListener("load", function(){
       document.getElementById("light3_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
     });
   });
+  document.getElementById("fanpower").addEventListener("click", function(){
+    document.getElementById("fanpower_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=fan_power";
+    $http(apiurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("fanpower_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("fanpower_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
 
 }, false);
 </script>
@@ -270,6 +283,10 @@ window.addEventListener("load", function(){
 </div>
 <p><input id="light3" type="button" value="3回押す(on->off)"></p>
 <div id="light3_status">
+</div>
+<h4>扇風機</h4>
+<p><input id="fanpower" type="button" value="電源ボタンを押す"></p>
+<div id="fanpower_status">
 </div>
 </body>
 
