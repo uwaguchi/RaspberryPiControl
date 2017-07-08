@@ -18,14 +18,23 @@ var getCaptureMain = function(curMessageId, curReceiptHandle) {
     captureimage.captureAndPutS3Image().then(function(data) {
         // s3urlのプリフィックス
         var s3url = "https://s3-ap-northeast-1.amazonaws.com/uwaguchi/";
-        // 返ってきたキー値をURLに追加
-        s3url += data;
+
+        // メッセージ本体
+        var responsemessage;
+
+        if(data !== 'error') {
+            // 返ってきたキー値をURLに追加
+            s3url += data;
+            // メッセージ本体
+            responsemessage = {raspiresponse: 'OK', requestMessageId: curMessageId, url: s3url};
+        } else {
+            // エラーの場合
+            // メッセージ本体
+            responsemessage = {raspiresponse: 'NG', requestMessageId: curMessageId, url: ''};
+        }
 
         // ここでレスポンスを返す
         // レスポンスキューにメッセージを送信
-        // メッセージ本体
-        var responsemessage = {raspiresponse: 'OK', requestMessageId: curMessageId, url: s3url};
-
         // パラメータセット
         var responseparams = {
             QueueUrl: response_que_url,

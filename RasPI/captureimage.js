@@ -65,7 +65,8 @@ var captureAndPutS3Image = function() {
             // エラー発生
             console.log(err);
             // エラー終了
-            reject(err);
+            // エラーメッセージをセットしてresolve
+            resolve("error");
         });
 
     });
