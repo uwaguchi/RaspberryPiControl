@@ -123,8 +123,14 @@ window.addEventListener("load", function(){
     $http(apiurl)
     .get({})
     .then(function(data) {
-      var imgurl = "https://s3-ap-northeast-1.amazonaws.com/uwaguchi/captureimage/recent?" + new Date().getTime();
-      document.getElementById("recentimage").innerHTML = "<img src='" + imgurl + "' width=640 height=480>";
+      // レスポンス取得
+      var res = JSON.parse(data);
+      if(res.raspiresponse === "OK") {
+        var imgurl = res.url + "?" + new Date().getTime();
+        document.getElementById("recentimage").innerHTML = "<img src='" + imgurl + "' width=640 height=480>";
+      } else {
+        document.getElementById("recentimage").innerHTML = "<font color='red'>画像取得エラー</font>";
+      }
     }).catch(err)(function(err) {
       document.getElementById("recentimage").innerHTML = "<font color='red'>画像取得エラー</font>";
     });
