@@ -66,6 +66,24 @@ var sendIRKitMain = function(curMessageId, curReceiptHandle, detail) {
 
     return new Promise(function(resolve, reject) {
         switch(detail){
+            case 'tv_1ch':
+                console.log("sendIRKit tv_1ch start.");
+                sendIRKit.tv_1ch().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
+            case 'tv_2ch':
+                console.log("sendIRKit tv_2ch start.");
+                sendIRKit.tv_2ch().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
             case 'tv_3ch':
                 console.log("sendIRKit tv_3ch start.");
                 sendIRKit.tv_3ch().then(function() {
@@ -75,9 +93,45 @@ var sendIRKitMain = function(curMessageId, curReceiptHandle, detail) {
                     reject();
                 });
                 break;
+            case 'tv_4ch':
+                console.log("sendIRKit tv_4ch start.");
+                sendIRKit.tv_4ch().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
+            case 'tv_5ch':
+                console.log("sendIRKit tv_5ch start.");
+                sendIRKit.tv_5ch().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
             case 'tv_9ch':
                 console.log("sendIRKit tv_9ch start.");
                 sendIRKit.tv_9ch().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
+            case 'tv_11ch':
+                console.log("sendIRKit tv_11ch start.");
+                sendIRKit.tv_11ch().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
+            case 'tv_12ch':
+                console.log("sendIRKit tv_12ch start.");
+                sendIRKit.tv_12ch().then(function() {
                     resolve();
                 }).catch(function(err) {
                     // エラー発生
