@@ -30,6 +30,21 @@ var request_irkit = function(jsondat) {
     });
 }
 
+var tv_1ch = function() {
+    // 送信するJSON
+    var jsondat = fs.readFileSync("tv_1ch.json");
+
+    // リクエスト
+    return request_irkit(jsondat);
+};
+
+var tv_2ch = function() {
+    // 送信するJSON
+    var jsondat = fs.readFileSync("tv_2ch.json");
+
+    // リクエスト
+    return request_irkit(jsondat);
+};
 
 var tv_3ch = function() {
     // 送信するJSON
@@ -39,9 +54,41 @@ var tv_3ch = function() {
     return request_irkit(jsondat);
 };
 
+var tv_4ch = function() {
+    // 送信するJSON
+    var jsondat = fs.readFileSync("tv_4ch.json");
+
+    // リクエスト
+    return request_irkit(jsondat);
+};
+
+var tv_5ch = function() {
+    // 送信するJSON
+    var jsondat = fs.readFileSync("tv_5ch.json");
+
+    // リクエスト
+    return request_irkit(jsondat);
+};
+
 var tv_9ch = function() {
     // 送信するJSON
     var jsondat = fs.readFileSync("tv_9ch.json");
+
+    // リクエスト
+    return request_irkit(jsondat);
+};
+
+var tv_11ch = function() {
+    // 送信するJSON
+    var jsondat = fs.readFileSync("tv_11ch.json");
+
+    // リクエスト
+    return request_irkit(jsondat);
+};
+
+var tv_12ch = function() {
+    // 送信するJSON
+    var jsondat = fs.readFileSync("tv_12ch.json");
 
     // リクエスト
     return request_irkit(jsondat);
@@ -139,8 +186,14 @@ var fan_power = function() {
 };
 
 // エクスポート
+exports.tv_1ch = tv_1ch;
+exports.tv_2ch = tv_2ch;
 exports.tv_3ch = tv_3ch;
+exports.tv_4ch = tv_4ch;
+exports.tv_5ch = tv_5ch;
 exports.tv_9ch = tv_9ch;
+exports.tv_11ch = tv_11ch;
+exports.tv_12ch = tv_12ch;
 exports.tv_power = tv_power;
 exports.aircon_cooler= aircon_cooler;
 exports.aircon_heater= aircon_heater;
