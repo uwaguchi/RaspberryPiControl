@@ -135,17 +135,30 @@ window.addEventListener("load", function(){
       document.getElementById("recentimage").innerHTML = "<font color='red'>画像取得エラー</font>";
     });
   });
-  document.getElementById("etv").addEventListener("click", function(){
-    document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+  document.getElementById("tokai").addEventListener("click", function(){
+    document.getElementById("tokai_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
     // APIリクエスト
-    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_9ch";
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_1ch";
     $http(apiurl)
     .get({})
     .then(function(data) {
-      document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+      document.getElementById("tokai_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
     }).catch(err)(function(err) {
-      document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+      document.getElementById("tokai_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("tva").addEventListener("click", function(){
+    document.getElementById("tva_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_2ch";
+    $http(apiurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("tva_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("tva_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
     });
   });
   document.getElementById("nhk").addEventListener("click", function(){
@@ -159,6 +172,71 @@ window.addEventListener("load", function(){
       document.getElementById("nhk_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
     }).catch(err)(function(err) {
       document.getElementById("nhk_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("chukyo").addEventListener("click", function(){
+    document.getElementById("chukyo_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_4ch";
+    $http(apiurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("chukyo_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("chukyo_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("cbc").addEventListener("click", function(){
+    document.getElementById("cbc_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_5ch";
+    $http(apiurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("cbc_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("cbc_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("etv").addEventListener("click", function(){
+    document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_9ch";
+    $http(apiurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("nagoya").addEventListener("click", function(){
+    document.getElementById("nagoya_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_11ch";
+    $http(apiurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("nagoya_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("nagoya_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
+  document.getElementById("ccnet").addEventListener("click", function(){
+    document.getElementById("ccnet_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_12ch";
+    $http(apiurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("ccnet_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("ccnet_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
     });
   });
   document.getElementById("tvoff").addEventListener("click", function(){
@@ -264,11 +342,29 @@ window.addEventListener("load", function(){
 <div id="recentimage">
 </div>
 <h4>テレビ</h4>
-<p><input id="etv" type="button" value="Eテレをつける"></p>
-<div id="etv_status">
+<p><input id="tokai" type="button" value="東海テレビをつける"></p>
+<div id="tokai_status">
+</div>
+<p><input id="tva" type="button" value="テレビ愛知をつける"></p>
+<div id="tva_status">
 </div>
 <p><input id="nhk" type="button" value="NHKをつける"></p>
 <div id="nhk_status">
+</div>
+<p><input id="chukyo" type="button" value="中京テレビをつける"></p>
+<div id="chukyo_status">
+</div>
+<p><input id="cbc" type="button" value="CBCをつける"></p>
+<div id="cbc_status">
+</div>
+<p><input id="etv" type="button" value="Eテレをつける"></p>
+<div id="etv_status">
+</div>
+<p><input id="nagoya" type="button" value="メーテレをつける"></p>
+<div id="nagoya_status">
+</div>
+<p><input id="ccnet" type="button" value="CCNetをつける"></p>
+<div id="ccnet_status">
 </div>
 <p><input id="tvoff" type="button" value="テレビを消す"></p>
 <div id="tvoff_status">
