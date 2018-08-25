@@ -70,6 +70,14 @@ var tv_5ch = function() {
     return request_irkit(jsondat);
 };
 
+var tv_6ch = function() {
+    // 送信するJSON
+    var jsondat = fs.readFileSync("tv_6ch.json");
+
+    // リクエスト
+    return request_irkit(jsondat);
+};
+
 var tv_9ch = function() {
     // 送信するJSON
     var jsondat = fs.readFileSync("tv_9ch.json");

@@ -111,6 +111,15 @@ var sendIRKitMain = function(curMessageId, curReceiptHandle, detail) {
                     reject();
                 });
                 break;
+            case 'tv_6ch':
+                console.log("sendIRKit tv_6ch start.");
+                sendIRKit.tv_6ch().then(function() {
+                    resolve();
+                }).catch(function(err) {
+                    // エラー発生
+                    reject();
+                });
+                break;
             case 'tv_9ch':
                 console.log("sendIRKit tv_9ch start.");
                 sendIRKit.tv_9ch().then(function() {
