@@ -200,6 +200,19 @@ window.addEventListener("load", function(){
       document.getElementById("cbc_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
     });
   });
+  document.getElementById("mie").addEventListener("click", function(){
+    document.getElementById("mie_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
+
+    // APIリクエスト
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/raspimessage/sendirkit?action=tv_6ch";
+    $http(apiurl)
+    .get({})
+    .then(function(data) {
+      document.getElementById("mie_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("mie_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
+  });
   document.getElementById("etv").addEventListener("click", function(){
     document.getElementById("etv_status").innerHTML = "<font color='red'>コマンド送信中...</font>";
 
@@ -356,6 +369,9 @@ window.addEventListener("load", function(){
 </div>
 <p><input id="cbc" type="button" value="CBCをつける"></p>
 <div id="cbc_status">
+</div>
+<p><input id="mie" type="button" value="三重テレビをつける"></p>
+<div id="mie_status">
 </div>
 <p><input id="etv" type="button" value="Eテレをつける"></p>
 <div id="etv_status">
