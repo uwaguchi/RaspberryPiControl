@@ -199,6 +199,7 @@ exports.tv_2ch = tv_2ch;
 exports.tv_3ch = tv_3ch;
 exports.tv_4ch = tv_4ch;
 exports.tv_5ch = tv_5ch;
+exports.tv_6ch = tv_6ch;
 exports.tv_9ch = tv_9ch;
 exports.tv_11ch = tv_11ch;
 exports.tv_12ch = tv_12ch;
