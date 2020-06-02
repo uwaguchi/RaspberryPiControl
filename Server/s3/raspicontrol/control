@@ -115,6 +115,22 @@ window.addEventListener("load", function(){
   }
 
   // 各機能のイベントハンドラ登録
+  document.getElementById("adddata").addEventListener("click", function(){
+    document.getElementById("adddata_status").innerHTML = "<font color='red'>登録中...</font>";
+
+    // 入力データ取得
+    var max = document.getElementById("max").value;
+    var min = document.getElementById("min").value;
+    var bpm = document.getElementById("bpm").value;
+
+    document.getElementById("adddata_status").innerHTML = "<font color='red'>max="+max+",min="+min+",bpm="+bpm+"</font>";
+
+    // APIリクエスト
+
+
+
+
+  });
   document.getElementById("view").addEventListener("click", function(){
     document.getElementById("recentimage").innerHTML = "<font color='red'>画像取得中...</font>";
 
@@ -350,6 +366,16 @@ window.addEventListener("load", function(){
 
 <body>
 <h3>いろいろコントロールページ</h3>
+<h4>本日の血圧登録（ラズパイ関係ないけど）</h4>
+<p>最高血圧</p>
+<p><input type="tel" id="max" maxlength="3" /></p>
+<p>最低血圧</p>
+<p><input type="tel" id="min" maxlength="3" /></p>
+<p>脈拍</p>
+<p><input type="tel" id="bpm" maxlength="3" /></p>
+<p><input id="adddata" type="button" value="追加登録"></p>
+<div id="adddata_status">
+</div>
 <h4>いまの様子</h4>
 <p><input id="view" type="button" value="いまの様子をみる"></p>
 <div id="recentimage">
