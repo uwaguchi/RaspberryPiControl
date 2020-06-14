@@ -1,4 +1,3 @@
-var fs = require("fs-promise");
 var AWS = require('aws-sdk');
 
 // メイン処理
@@ -98,5 +97,5 @@ exports.handler = async function(event, context) {
 };
 
 // test
-//handler({max: "111", min: "77", bpm: "88"});
+//handler({max: "105", min: "77", bpm: "99"});
 //console.log("end");
