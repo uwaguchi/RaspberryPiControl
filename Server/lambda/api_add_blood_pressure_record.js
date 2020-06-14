@@ -1,8 +1,6 @@
 var fs = require("fs-promise");
 var AWS = require('aws-sdk');
 
-//var send2Raspi = require('./sendMessage2Raspi');
-
 // メイン処理
 var add_blood_preassure_record = async function (max, min, bpm) {
 
@@ -73,7 +71,10 @@ var add_blood_preassure_record = async function (max, min, bpm) {
   });
 };
 
-exports.handler = async function(event, context, callback) {
+// test
+//var handler = async function(event, context) {
+
+exports.handler = async function(event, context) {
   // パラメータ取得
   var max = event.max;
   var min = event.min;
@@ -86,24 +87,16 @@ exports.handler = async function(event, context, callback) {
   if (!max || !min || !bpm) {
     // パラメータがない場合
     console.log("parameter error");
-    callback(null, {response: 'Error'});
+    return JSON.stringify({response: "Error"});
   }
 
   // メイン処理実行
   await add_blood_preassure_record(max, min, bpm);
 
   // 正常終了
-  callback(null, {response: 'OK'});
+  return JSON.stringify({response: "OK"});
 };
 
 // test
-var test = async function() {
-max = 123;
-min = 80;
-bpm = 90;
-var ret = await add_blood_preassure_record(max, min, bpm);
-console.log(ret);
-};
-
-test();
-console.log("end");
+//handler({max: "111", min: "77", bpm: "88"});
+//console.log("end");
