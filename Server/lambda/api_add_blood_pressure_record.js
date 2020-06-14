@@ -19,7 +19,7 @@ var add_blood_preassure_record = async function (max, min, bpm) {
     var datakey = "blood-pressure/blood-pressure-test.txt";
 
     // S3からのデータ読み込み
-    params = {};
+    var params = {};
     params["Bucket"] = s3bucket;
     params["Key"] = datakey;
 
@@ -34,7 +34,7 @@ var add_blood_preassure_record = async function (max, min, bpm) {
     }
 
     // タイムスタンプ取得
-    curdate = new Date();
+    var curdate = new Date();
     var yy = curdate.getFullYear();
     var mm = ("0"+ (curdate.getMonth() + 1)).slice(-2);
     var dd = ("0"+curdate.getDate()).slice(-2);
