@@ -15,8 +15,8 @@ var add_blood_preassure_record = async function (max, min, bpm) {
     // s3バケット名
     var s3bucket = "uwaguchi";
     // s3オブジェクト名
-    //var datakey = "blood-pressure/blood-pressure.txt";
-    var datakey = "blood-pressure/blood-pressure-test.txt";
+    var datakey = "blood-pressure/blood-pressure.txt";
+    //var datakey = "blood-pressure/blood-pressure-test.txt";
 
     // S3からのデータ読み込み
     var params = {};
