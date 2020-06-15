@@ -27,19 +27,6 @@ function $http(url){
         var client = new XMLHttpRequest();
         var uri = url;
 
-        if (args && (method === 'POST' || method === 'PUT')) {
-          uri += '?';
-          var argcount = 0;
-          for (var key in args) {
-            if (args.hasOwnProperty(key)) {
-              if (argcount++) {
-                uri += '&';
-              }
-              uri += encodeURIComponent(key) + '=' + encodeURIComponent(args[key]);
-            }
-          }
-        }
-
         client.open(method, uri);
 
         // Set Authorization Header
@@ -47,8 +34,15 @@ function $http(url){
           client.setRequestHeader('Authorization', curtoken);
 	}
 
-	// Send Request
-        client.send();
+        if (args && (method === 'POST' || method === 'PUT')) {
+          // Send POST or PUT Request
+          client.setRequestHeader('Content-Type', 'application/json');
+          var body = JSON.stringify(args);
+          client.send(body);
+        } else {
+          // Send GET Request
+          client.send();
+        }
 
         client.onload = function () {
           if (this.status >= 200 && this.status < 300) {
@@ -122,14 +116,17 @@ window.addEventListener("load", function(){
     var max = document.getElementById("max").value;
     var min = document.getElementById("min").value;
     var bpm = document.getElementById("bpm").value;
-
-    document.getElementById("adddata_status").innerHTML = "<font color='red'>max="+max+",min="+min+",bpm="+bpm+"</font>";
+    var data = {"max": max, "min": min, "bpm": bpm};
 
     // APIリクエスト
-
-
-
-
+    var apiurl = "https://3eno4n6y1d.execute-api.ap-northeast-1.amazonaws.com/prod/api/add-blood-pressure-record";
+    $http(apiurl)
+    .post(data)
+    .then(function(data) {
+      document.getElementById("adddata_status").innerHTML = "<font color='red'>コマンド送信完了！</font>";
+    }).catch(err)(function(err) {
+      document.getElementById("adddata_status").innerHTML = "<font color='red'>コマンド送信エラー</font>";
+    });
   });
   document.getElementById("view").addEventListener("click", function(){
     document.getElementById("recentimage").innerHTML = "<font color='red'>画像取得中...</font>";
@@ -376,6 +373,7 @@ window.addEventListener("load", function(){
 <p><input id="adddata" type="button" value="追加登録"></p>
 <div id="adddata_status">
 </div>
+<p><a href="https://s3-ap-northeast-1.amazonaws.com/uwaguchi/blood-pressure/blood-pressure.txt" target="_blank">登録データ一覧はこちら</a></p>
 <h4>いまの様子</h4>
 <p><input id="view" type="button" value="いまの様子をみる"></p>
 <div id="recentimage">
