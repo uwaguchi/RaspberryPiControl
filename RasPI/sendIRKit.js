@@ -1,5 +1,5 @@
-var fs = require("fs");
-var rp = require("request-promise");
+const fs = require("fs");
+const axios = require("axios");
 
 // 送信するホスト
 var irkithost = fs.readFileSync("IRKit_host.dat");
@@ -10,17 +10,14 @@ var request_irkit = function(jsondat) {
 
     return new Promise(function(resolve, reject) {
 
-        // リクエストオプション
-        var options = {
+        axios({
             method: 'POST',
             url: requrl,
-            body: jsondat,
-            headers: {
-                'X-Requested-With': 'curl'
-            }
-        };
-        // リクエスト実行
-        rp(options).then(function(res) {
+            data: jsondat,
+            timeout: 5000,
+            headers: {'X-Requested-With': 'curl'},
+            })
+        .then(function(res) {
             // 正常終了
             resolve();
         }).catch(function(err) {
